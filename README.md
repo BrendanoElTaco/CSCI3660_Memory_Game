@@ -1,1 +1,1 @@
-A Memory Game writen in Java for Mobile Application Development class
+A Memory Game written in Java for Mobile Application Development class
