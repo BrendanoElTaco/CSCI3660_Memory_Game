@@ -34,6 +34,6 @@
 
     <!-- Placeholder: Card views (ImageViews or Buttons) will be added here programmatically. -->
 
-</GridLayout>
+    </GridLayout>
 
-    </RelativeLayout>
+</RelativeLayout>
