@@ -1,104 +1,106 @@
 package com.termproject.memorygame;
 
 import android.os.Bundle;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-
-import androidx.activity.EdgeToEdge;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private GridView gridView;
+    private ArrayList<Integer> cardImages;
+    private CardAdapter adapter;
+    private int flippedCount = 0;
+    private int firstFlippedPosition = -1;
+    private int secondFlippedPosition = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Enable edge-to-edge display
-        EdgeToEdge.enable(this);
-        // Set the content view to your XML layout
         setContentView(R.layout.activity_main);
 
-        // Adjust padding for system bars
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        gridView = findViewById(R.id.gridView);
+        cardImages = getCardImages();
+        Collections.shuffle(cardImages);
+
+        adapter = new CardAdapter(this, cardImages);
+        gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (flippedCount < 2) {
+                    flipCard(position);
+                }
+            }
         });
 
-        // Find the GridLayout defined in XML
-        GridLayout gridLayout = findViewById(R.id.gridLayout);
-
-        // Initialize the deck of cards
-        List<Card> cards = initializeDeck();
-
-        // Add card views to the GridLayout
-        addCardsToGridLayout(gridLayout, cards);
+        // Calculate the cell size dynamically based on screen size
+        calculateCellSize();
     }
 
-    /**
-     * Dynamically adds card views to the grid layout.
-     * @param gridLayout The GridLayout to add cards to.
-     * @param cards The list of Card objects to add to the grid.
-     */
-    private void addCardsToGridLayout(GridLayout gridLayout, List<Card> cards) {
-        for (Card card : cards) {
-            ImageView cardView = new ImageView(this);
-            // Set the back image for the card
-            cardView.setImageResource(R.drawable.card_back);
+    private ArrayList<Integer> getCardImages() {
+        ArrayList<Integer> images = new ArrayList<>();
+        images.add(R.drawable.threeofclubs);
+        images.add(R.drawable.threeofdiamonds);
+        images.add(R.drawable.threeofhearts);
+        images.add(R.drawable.threeofclubs);
+        images.add(R.drawable.threeofclubs);
+        images.add(R.drawable.threeofdiamonds);
+        images.add(R.drawable.threeofhearts);
+        images.add(R.drawable.threeofclubs);
+        images.add(R.drawable.twoofclubs);
+        images.add(R.drawable.twoofdiamonds);
+        images.add(R.drawable.twoofhearts);
+        images.add(R.drawable.twoofspades);
+        images.add(R.drawable.twoofclubs);
+        images.add(R.drawable.twoofdiamonds);
+        images.add(R.drawable.twoofhearts);
+        images.add(R.drawable.twoofspades);
+        return images;
+    }
 
-            // Store the card's front image in the view's tag for easy access
-            cardView.setTag(card.getImageResource());
+    private void flipCard(int position) {
+        adapter.flipCard(position);
+        flippedCount++;
 
-            // Configure layout parameters for the card view
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.width = GridLayout.LayoutParams.WRAP_CONTENT;
-            params.height = GridLayout.LayoutParams.WRAP_CONTENT;
-            params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f);
-            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f);
-            params.setMargins(8, 8, 8, 8);
+        if (flippedCount == 1) {
+            firstFlippedPosition = position;
+        } else if (flippedCount == 2) {
+            secondFlippedPosition = position;
 
-            cardView.setLayoutParams(params);
-            cardView.setAdjustViewBounds(true);
-            cardView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (cardImages.get(firstFlippedPosition).equals(cardImages.get(secondFlippedPosition))) {
+                // Match found
+                adapter.setMatched(firstFlippedPosition);
+                adapter.setMatched(secondFlippedPosition);
+            } else {
+                // No match, flip cards back
+                gridView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.flipCard(firstFlippedPosition);
+                        adapter.flipCard(secondFlippedPosition);
+                    }
+                }, 1000);
+            }
 
-            // Set onClickListener to handle card flip
-            cardView.setOnClickListener(view -> {
-                if (!card.isFlipped() && !card.isMatched()) {
-                    card.setFlipped(true);
-                    cardView.setImageResource((Integer) view.getTag());
-                    // TODO: Add logic here to check for a match and handle unmatched cards
-                }
-            });
-
-            gridLayout.addView(cardView);
+            // Reset counts and positions
+            flippedCount = 0;
+            firstFlippedPosition = -1;
+            secondFlippedPosition = -1;
         }
     }
 
-    /**
-     * Initializes the deck of cards with image resources.
-     * @return List of Card objects.
-     */
-    private List<Card> initializeDeck() {
-        List<Card> cards = new ArrayList<>();
-        int[] imageResources = {
-                R.drawable.card_01, R.drawable.card_02, R.drawable.card_03, R.drawable.card_04,
-                R.drawable.card_05, R.drawable.card_06, R.drawable.card_07, R.drawable.card_08,
-                R.drawable.card_09, R.drawable.card_10, R.drawable.card_11, R.drawable.card_12,
-                R.drawable.card_13, R.drawable.card_14, R.drawable.card_15, R.drawable.card_16
-        };
-
-        for (int i = 0; i < imageResources.length; i++) {
-            cards.add(new Card(i, imageResources[i]));
-        }
-
-        // Shuffle the list of cards to ensure a different game each time
-        Collections.shuffle(cards);
-
-        return cards;
+    private void calculateCellSize() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+        int cellSize = Math.min(screenWidth, screenHeight) / 4; // 4 columns
+        gridView.setColumnWidth(cellSize);
     }
 }
