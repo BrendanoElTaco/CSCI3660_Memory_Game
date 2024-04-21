@@ -1,19 +1,17 @@
 package com.termproject.memorygame;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GridView gridView;
-    private ArrayList<Integer> cardImages;
+    private RecyclerView recyclerView;
     private CardAdapter adapter;
+    private ArrayList<Integer> cardImages;
     private int flippedCount = 0;
     private int firstFlippedPosition = -1;
     private int secondFlippedPosition = -1;
@@ -23,24 +21,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        gridView = findViewById(R.id.gridView);
+        recyclerView = findViewById(R.id.recyclerView);
         cardImages = getCardImages();
         Collections.shuffle(cardImages);
 
-        adapter = new CardAdapter(this, cardImages);
-        gridView.setAdapter(adapter);
+        adapter = new CardAdapter(this, cardImages, 4);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4)); // Set 4 columns in the grid
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (flippedCount < 2) {
-                    flipCard(position);
-                }
+        // Handling item clicks
+        adapter.setOnItemClickListener(position -> {
+            // Handle the click event, flip the card
+            if (flippedCount < 2) {
+                flipCard(position);
             }
         });
-
-        // Calculate the cell size dynamically based on screen size
-        calculateCellSize();
     }
 
     private ArrayList<Integer> getCardImages() {
@@ -79,12 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setMatched(secondFlippedPosition);
             } else {
                 // No match, flip cards back
-                gridView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.flipCard(firstFlippedPosition);
-                        adapter.flipCard(secondFlippedPosition);
-                    }
+                recyclerView.postDelayed(() -> {
+                    adapter.flipCard(firstFlippedPosition);
+                    adapter.flipCard(secondFlippedPosition);
                 }, 1000);
             }
 
@@ -95,12 +87,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void calculateCellSize() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
-        int cellSize = Math.min(screenWidth, screenHeight) / 4; // 4 columns
-        gridView.setColumnWidth(cellSize);
-    }
 }
