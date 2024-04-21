@@ -1,6 +1,8 @@
 package com.termproject.memorygame;
 
 import android.os.Bundle;
+import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private int flippedCount = 0;
     private int firstFlippedPosition = -1;
     private int secondFlippedPosition = -1;
+    private Handler flipHandler = new Handler();
+    private Runnable flipRunnable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void flipCard(int position) {
+        // Do nothing if we're already waiting to flip cards back
+        if (flippedCount >= 2) {
+            return;
+        }
+
+        // Flip the card
         adapter.flipCard(position);
         flippedCount++;
 
@@ -68,23 +79,30 @@ public class MainActivity extends AppCompatActivity {
         } else if (flippedCount == 2) {
             secondFlippedPosition = position;
 
-            if (cardImages.get(firstFlippedPosition).equals(cardImages.get(secondFlippedPosition))) {
-                // Match found
-                adapter.setMatched(firstFlippedPosition);
-                adapter.setMatched(secondFlippedPosition);
-            } else {
-                // No match, flip cards back
-                recyclerView.postDelayed(() -> {
+            // Cancel any pending flip-backs
+            flipHandler.removeCallbacks(flipRunnable);
+
+            flipRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    // Flip cards back over
                     adapter.flipCard(firstFlippedPosition);
                     adapter.flipCard(secondFlippedPosition);
-                }, 1000);
-            }
 
-            // Reset counts and positions
-            flippedCount = 0;
-            firstFlippedPosition = -1;
-            secondFlippedPosition = -1;
+                    // Reset for the next turn
+                    flippedCount = 0;
+                    firstFlippedPosition = -1;
+                    secondFlippedPosition = -1;
+                }
+            };
+
+            // If the cards do not match, schedule them to flip back after a delay
+            if (!cardImages.get(firstFlippedPosition).equals(cardImages.get(secondFlippedPosition))) {
+                flipHandler.postDelayed(flipRunnable, 1500);
+            } else {
+                // If cards match, no need to flip them back, just reset the flip count
+                flippedCount = 0;
+            }
         }
     }
-
 }
