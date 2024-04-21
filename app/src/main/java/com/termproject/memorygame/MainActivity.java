@@ -88,18 +88,15 @@ public class MainActivity extends AppCompatActivity {
             // Cancel any pending flip-backs
             flipHandler.removeCallbacks(flipRunnable);
 
-            flipRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    // Flip cards back over
-                    adapter.flipCard(firstFlippedPosition);
-                    adapter.flipCard(secondFlippedPosition);
+            flipRunnable = () -> {
+                // Flip cards back over
+                adapter.flipCard(firstFlippedPosition);
+                adapter.flipCard(secondFlippedPosition);
 
-                    // Reset for the next turn
-                    flippedCount = 0;
-                    firstFlippedPosition = -1;
-                    secondFlippedPosition = -1;
-                }
+                // Reset for the next turn
+                flippedCount = 0;
+                firstFlippedPosition = -1;
+                secondFlippedPosition = -1;
             };
 
             // If the cards do not match, schedule them to flip back after a delay
