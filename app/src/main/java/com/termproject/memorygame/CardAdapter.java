@@ -92,16 +92,22 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     }
 
     public void flipCard(int position) {
-        if (position >= 0 && position < flipped.size()) {
-            flipped.set(position, !flipped.get(position));
-            notifyItemChanged(position);
+        // If the card is already matched, don't allow it to flip back over
+        if (matched.get(position)) {
+            return;
         }
+
+        flipped.set(position, !flipped.get(position));
+        notifyItemChanged(position);
     }
 
+
+
     public void setMatched(int position) {
-        if (position >= 0 && position < matched.size()) {
-            matched.set(position, true);
-            notifyItemChanged(position);
-        }
+        matched.set(position, true);
+        // Optionally set flipped to false if needed, depends on your game logic
+        flipped.set(position, false);
+        notifyItemChanged(position);
     }
+
 }
