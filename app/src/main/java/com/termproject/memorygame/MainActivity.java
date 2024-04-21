@@ -10,7 +10,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
-
+/*
+    TODO:
+     1. Add flips counter
+     2. Nav bar for rules
+     3. Difficulty modes (maybe)
+     4. Cleanup code and add loads of comments
+ */
     private RecyclerView recyclerView;
     private CardAdapter adapter;
     private ArrayList<Integer> cardImages;
