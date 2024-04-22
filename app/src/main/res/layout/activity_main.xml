@@ -10,8 +10,41 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp"
         android:clipToPadding="false" />
+
+    <!-- this is scores of player21 -->
+    <TextView
+        android:id="@+id/player1_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 1: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="5dp" />
+
+    <!-- this is score for player2 -->
+    <TextView
+        android:id="@+id/player2_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 2: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="5dp" />
+
+
+
+    <!-- this shows what player is currently playing -->
+    <TextView
+        android:id="@+id/current_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 1's Turn"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="5dp" />
 
 </LinearLayout>
