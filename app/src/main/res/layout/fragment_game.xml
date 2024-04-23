@@ -50,6 +50,7 @@
             android:padding="5dp"
             android:text="Player 2: 0"
             android:textSize="18sp"
+            android:gravity="right"
             android:textStyle="bold" />
 
     </LinearLayout>
