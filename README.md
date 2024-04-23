@@ -1,67 +1,43 @@
+# Android Memory Game
 
-# Memory Card Game for Android in Java
+## Introduction
+This Android Memory Game is a simple and fun card-matching game that tests your memory. The game consists of flipped cards that a player turns over two at a time with the goal of finding a matching pair. The game continues until all pairs are found, and the objective is to achieve this in the fewest flips possible.
 
-Creating a basic memory game involving cards for an Android app in Java can be a fun and rewarding project. This document outlines a simple way to implement such a game. This game will have a grid of cards, each with a matching pair. Players will flip two cards at a time, trying to find pairs of matching cards until all pairs are found.
+## Features
+- **Simple and Intuitive UI**: Easy to navigate and play the game with a user-friendly interface.
+- **Score Tracking**: Keeps track of the number of pairs each player has found.
+- **Turn Indication**: Clearly indicates which player's turn it is.
+- **Help Section**: Provides game rules and instructions.
+- **Dynamic Grid**: Supports different grid sizes for various difficulties (currently set to 4x4).
 
-## Game Concept
+## How to Play
+- Start the game with all cards face down.
+- Tap on two cards to flip them over.
+- If the cards match, they remain flipped, and you score a point.
+- If they don't match, they flip back over after a short delay.
+- Keep playing until all cards have been matched.
+- Try to match all pairs with the fewest flips to win.
 
-- **Grid Size**: The game will feature a grid of cards, typically 4x4, for a total of 16 cards, making 8 pairs to match. You can adjust the grid size based on difficulty levels.
-- **Game Objective**: The player needs to match all pairs of cards with the fewest flips possible.
+## Technical Details
+- Built using Android Studio.
+- Utilizes Fragments to manage different sections of the game.
+- Implements RecyclerView for efficient card display and flipping logic.
+- MVC architectural pattern for separation of concerns.
 
-## Basic Components
-
-1. **Card Model**: This is a simple object representing each card.
-   - Properties: `id`, `imageResource`, `isFlipped`, `isMatched`
-   - Methods: Constructor, getters, and setters
-
-2. **Game Logic**: Manages the state and logic of the game.
-   - Initializing the game: Shuffling cards and laying them out in the grid.
-   - Handling flips: What happens when a card is flipped?
-   - Checking for matches: Determine if two flipped cards match.
-   - Game end condition: The game ends when all cards are matched.
-
-3. **User Interface**: Displaying the cards and game state to the player.
-   - Card grid: Display the cards in a grid layout.
-   - Flip animations: Animate the flipping of cards.
-   - Game state: Show the current number of flips and matches.
-
-## Implementation Steps
-
-1. **Create the Card Model**
-   - Define a `Card` class with the properties mentioned above.
-
-2. **Design the Game Layout**
-   - Use `GridLayout` in your activity's XML layout file to arrange the cards.
-
-3. **Implement the Game Logic**
-   - In your main activity, initialize the game by creating instances of the `Card` class and assigning them images in pairs. Then, shuffle these cards.
-   - Handle user input to flip cards and determine if two flipped cards are a match. If they match, keep them flipped and marked as matched. If not, flip them back after a short delay.
-   - Keep track of the state of each card (flipped, matched) and the number of flips.
-
-4. **UI and Interaction**
-   - For each card in the grid, use a `Button` or an `ImageView`. Set an initial image that represents the back of a card. When a card is flipped, change the image to its front image.
-   - Implement onClick listeners for the cards to handle flipping.
-   - Use animations to enhance the flipping effect.
-
-5. **Final Touches**
-   - Add a counter to track the number of moves.
-   - Implement a reset function to start a new game.
-   - Optionally, add difficulty levels by increasing the grid size.
-
-## Code Snippet Example
-
-Here's a simple example to get you started with the card model:
-
-```java
-public class Card {
-    private int id;
-    private boolean isFlipped = false;
-    private boolean isMatched = false;
-
-    public Card(int id) {
-        this.id = id;
-    }
-
-    // Getters and setters
-}
+## Installation
+Clone this repository and import it into **Android Studio**.
+```bash
+git clone https://github.com/yourusername/your-repo-name.git
 ```
+Build and run the project using the Gradle build tool.
+
+## Screenshots
+![image](https://github.com/BrendanoElTaco/CSCI3660_Memory_Game/assets/33934145/ff4327cf-1895-41b0-835b-0bb522fa3681)
+![image](https://github.com/BrendanoElTaco/CSCI3660_Memory_Game/assets/33934145/4c9e45ee-c71b-479e-91a2-2add5c8019d7)
+![image](https://github.com/BrendanoElTaco/CSCI3660_Memory_Game/assets/33934145/a8c33c38-38cb-4fb4-9838-b60b4e517f92)
+
+## Contributions
+Contributions are welcome! Please fork this repository and contribute back using [pull requests](https://github.com/BrendanoElTaco/CSCI3660_Memory_Game/pulls).
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/BrendanoElTaco/CSCI3660_Memory_Game/blob/9754fe3815f454371cd14a58effb6e040a5b4072/LICENSE) file for details.
