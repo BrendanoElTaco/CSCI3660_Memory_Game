@@ -1,7 +1,17 @@
+/**
+ * TODO:
+ *  1. Add flips counter
+ *  2. Nav bar for rules
+ *  3. Difficulty modes (maybe)
+ *  4. Cleanup code and add loads of comments
+ */
+
 package com.termproject.memorygame;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,13 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
-/**
-   * TODO:
-   *  1. Add flips counter
-   *  2. Nav bar for rules
-   *  3. Difficulty modes (maybe)
-   *  4. Cleanup code and add loads of comments
- */
 
     // UI component to display cards in a grid
     private RecyclerView recyclerView;
@@ -34,29 +37,88 @@ public class MainActivity extends AppCompatActivity {
     // Runnable task for flipping cards back
     private Runnable flipRunnable;
 
+    // Players
+    private Player player1;
+    private Player player2;
+    private Player currentPlayer;
+
+    // UI components
+    private TextView player1ScoreTextView;
+    private TextView player2ScoreTextView;
+    private TextView currentPlayerTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
-        // Get and shuffle the card images
         cardImages = getCardImages();
         Collections.shuffle(cardImages);
 
-        // Setup the adapter and RecyclerView
+        player1 = new Player("Player 1");
+        player2 = new Player("Player 2");
+        currentPlayer = player1;
+
+        player1ScoreTextView = findViewById(R.id.player1_score);
+        player2ScoreTextView = findViewById(R.id.player2_score);
+        currentPlayerTextView = findViewById(R.id.current_player);
+
         adapter = new CardAdapter(this, cardImages, 4);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4)); // Set the grid to have 4 columns
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        // Set up the click listener for the cards
         adapter.setOnItemClickListener(position -> {
-            // Only allow a new card to be flipped if less than 2 cards are currently flipped
             if (flippedCount < 2) {
                 flipCard(position);
             }
         });
+
+        updatePlayerInfo();
+    }
+
+    private void updatePlayerInfo() {
+        currentPlayerTextView.setText(currentPlayer.getName() + "'s Turn");
+        player1ScoreTextView.setText("Player 1: " + player1.getScore());
+        player2ScoreTextView.setText("Player 2: " + player2.getScore());
+    }
+
+    private void flipCard(int position) {
+        if (flippedCount >= 2 || adapter.isMatched(position)) {
+            return;
+        }
+
+        adapter.flipCard(position);
+        flippedCount++;
+
+        if (flippedCount == 1) {
+            firstFlippedPosition = position;
+        } else if (flippedCount == 2) {
+            secondFlippedPosition = position;
+
+            flipRunnable = () -> {
+                adapter.flipCard(firstFlippedPosition);
+                adapter.flipCard(secondFlippedPosition);
+
+                if (cardImages.get(firstFlippedPosition).equals(cardImages.get(secondFlippedPosition))) {
+                    // If cards match, mark them as matched and update player's score
+                    adapter.setMatched(firstFlippedPosition);
+                    adapter.setMatched(secondFlippedPosition);
+                    currentPlayer.incrementScore();
+                    updatePlayerInfo(); // Update player's score immediately
+                } else {
+                    // Switch player if cards don't match
+                    currentPlayer = (currentPlayer == player1) ? player2 : player1;
+                    updatePlayerInfo();
+                }
+
+                flippedCount = 0;
+                firstFlippedPosition = -1;
+                secondFlippedPosition = -1;
+            };
+
+            flipHandler.postDelayed(flipRunnable, 1500);
+        }
     }
 
     /**
@@ -82,44 +144,5 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.twoofspades); // Duplicate for matching
         return images;
     }
-
-    /**
-     * Handles the logic for flipping a card and managing the game state.
-     */
-    private void flipCard(int position) {
-        // Prevent flipping more than two cards
-        if (flippedCount >= 2) {
-            return;
-        }
-
-        // Flip the card at the given position
-        adapter.flipCard(position);
-        flippedCount++;
-
-        // Handle first and second flips differently
-        if (flippedCount == 1) {
-            firstFlippedPosition = position; // Record the position of the first flip
-        } else if (flippedCount == 2) {
-            secondFlippedPosition = position; // Record the position of the second flip
-
-            // Prepare to flip cards back if they don't match
-            flipRunnable = () -> {
-                adapter.flipCard(firstFlippedPosition);
-                adapter.flipCard(secondFlippedPosition);
-                // Reset the game state
-                flippedCount = 0;
-                firstFlippedPosition = -1;
-                secondFlippedPosition = -1;
-            };
-
-            // Check if the two flipped cards match
-            if (!cardImages.get(firstFlippedPosition).equals(cardImages.get(secondFlippedPosition))) {
-                // If not a match, schedule the cards to flip back after a delay
-                flipHandler.postDelayed(flipRunnable, 1500);
-            } else {
-                // If a match, reset flippedCount immediately, no need to flip back
-                flippedCount = 0;
-            }
-        }
-    }
 }
+

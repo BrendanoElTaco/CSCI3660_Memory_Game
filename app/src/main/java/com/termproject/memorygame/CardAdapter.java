@@ -31,6 +31,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         void onItemClick(int position);
     }
 
+    public boolean isMatched(int position) {
+        return matched.get(position);
+    }
+
+
     private OnItemClickListener onItemClickListener;  // Listener for click events
 
     /**
@@ -132,3 +137,4 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         notifyItemChanged(position);
     }
 }
+
