@@ -27,7 +27,7 @@ This Android Memory Game is a simple and fun card-matching game that tests your 
 ## Installation
 Clone this repository and import it into **Android Studio**.
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/BrendanoElTaco/CSCI3660_Memory_Game.git
 ```
 Build and run the project using the Gradle build tool.
 
