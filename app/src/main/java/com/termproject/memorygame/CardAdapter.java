@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-    private Context context;  // Context to access application-specific resources
+    private Context context;  // Context to access application-specific resources and utilities
     private List<Integer> cardImages;  // List of image resource IDs for the cards
     private List<Boolean> flipped;  // List to track flipped state of each card
     private List<Boolean> matched;  // List to track matched state of each card
@@ -31,15 +31,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         void onItemClick(int position);
     }
 
-    public boolean isMatched(int position) {
-        return matched.get(position);
-    }
-
-
     private OnItemClickListener onItemClickListener;  // Listener for click events
 
     /**
-     * Constructs the CardAdapter.
+     * Constructor for the CardAdapter class.
+     * Initializes lists for tracking card states and sets up the grid layout.
      * @param context Application context.
      * @param cardImages List of drawable resources representing card faces.
      * @param columns Number of columns in the grid layout.
@@ -69,8 +65,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         int padding = (int) (context.getResources().getDimension(R.dimen.grid_padding) * 2);
         int totalSpacing = padding * (numberOfColumns + 1);
         int cardWidth = (screenWidth - totalSpacing) / numberOfColumns;
-        float scale = (float) cardWidth / 500f;  // 500px is the assumed original width of the card
-        int cardHeight = Math.round(726 * scale);  // 726px is the assumed original height of the card
+        float scale = (float) cardWidth / 500f;  // Assuming original width of the card is 500px
+        int cardHeight = Math.round(726 * scale);  // Assuming original height of the card is 726px
 
         // Inflate the layout for each card
         View view = LayoutInflater.from(context).inflate(R.layout.grid_item, parent, false);
@@ -91,7 +87,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             holder.imageView.setImageResource(R.drawable.card_back);
         }
 
-        // Attach the click listener
+        // Attach the click listener to handle card flip actions
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(position);
@@ -108,7 +104,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
      * ViewHolder class that holds the views for each grid item.
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView imageView;  // ImageView to display the card
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -118,6 +114,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     /**
      * Flips a card at a specified position.
+     * Toggles the flipped state and updates the display.
      * @param position The position of the card to flip.
      */
     public void flipCard(int position) {
@@ -129,6 +126,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     /**
      * Sets a card as matched.
+     * Updates both the matched and flipped state to ensure proper display.
      * @param position The position of the card to mark as matched.
      */
     public void setMatched(int position) {
@@ -136,5 +134,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         flipped.set(position, false);
         notifyItemChanged(position);
     }
-}
 
+    /**
+     * Checks if a card at a specified position is matched.
+     * @param position Position of the card to check.
+     * @return true if the card is matched, false otherwise.
+     */
+    public boolean isMatched(int position) {
+        return matched.get(position);
+    }
+}
