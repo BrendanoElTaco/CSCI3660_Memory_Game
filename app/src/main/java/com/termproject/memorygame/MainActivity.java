@@ -121,12 +121,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
     /**
      * Create and return a list of drawable resources for the cards.
      */
