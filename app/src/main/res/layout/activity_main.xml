@@ -1,50 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp"
-        android:clipToPadding="false" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation" />
 
-    <!-- this is scores of player21 -->
-    <TextView
-        android:id="@+id/player1_score"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Player 1: 0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="5dp" />
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation_menu" />
 
-    <!-- this is score for player2 -->
-    <TextView
-        android:id="@+id/player2_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Player 2: 0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="5dp" />
-
-
-
-    <!-- this shows what player is currently playing -->
-    <TextView
-        android:id="@+id/current_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Player 1's Turn"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="5dp" />
-
-</LinearLayout>
+</RelativeLayout>
