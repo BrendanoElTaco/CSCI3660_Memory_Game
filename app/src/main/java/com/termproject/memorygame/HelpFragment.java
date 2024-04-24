@@ -36,7 +36,8 @@ public class HelpFragment extends Fragment {
                 "<b>Credits:</b><br><br>" +
                 "<a href=\"https://github.com/BrendanoElTaco\">Brendan LeGrand </a><br>" +
                 "<a href=\"https://github.com/natemvm\">Nathan Lee </a><br>" +
-                "<a href=\"https://github.com/JamieGibbs1\">Jamie Gibbs </a><br>";
+                "<a href=\"https://github.com/JamieGibbs1\">Jamie Gibbs </a><br>" +
+                "Modern Card back by Image by <a href=\"https://www.freepik.com/free-vector/hand-drawn-playing-card-back-design-illustration_94943770.htm#query=playing%20card%20back&position=1&from_view=keyword&track=ais&uuid=15b09624-f718-45fc-9e88-aed49dabc287\">Freepik</a>";
 
 
         // Set the formatted HTML text to the TextView based on Android version

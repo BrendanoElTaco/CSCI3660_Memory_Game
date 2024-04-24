@@ -8,5 +8,8 @@
         android:id="@+id/nav_help"
         android:icon="@drawable/baseline_help_outline_24"
         android:title="@string/help" />
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings" />
 
 </menu>

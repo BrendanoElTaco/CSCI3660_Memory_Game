@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new GameFragment();  // If game item is selected
                 } else if (id == R.id.nav_help) {
                     selectedFragment = new HelpFragment();  // If help item is selected
+                } else if (id == R.id.nav_settings) {
+                    selectedFragment = new SettingsFragment(); // If settings item is selected
                 }
 
                 // Replacing the current fragment with the selected fragment

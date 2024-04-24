@@ -84,7 +84,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         if (flipped.get(position) || matched.get(position)) {
             holder.imageView.setImageResource(cardImages.get(position));
         } else {
-            holder.imageView.setImageResource(R.drawable.card_back);
+            holder.imageView.setImageResource(R.drawable.classic_card_back);
         }
 
         // Attach the click listener to handle card flip actions
