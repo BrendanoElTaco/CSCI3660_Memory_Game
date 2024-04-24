@@ -1,6 +1,7 @@
 package com.termproject.memorygame;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private List<Boolean> flipped;  // List to track flipped state of each card
     private List<Boolean> matched;  // List to track matched state of each card
     private int numberOfColumns;  // Number of columns in the grid layout
+    private int defaultCardBackId;  // ID to hold the default card back image
 
     /**
      * Interface for handling item click events.
@@ -46,6 +48,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         this.numberOfColumns = columns;
         this.flipped = new ArrayList<>(Collections.nCopies(cardImages.size(), false));
         this.matched = new ArrayList<>(Collections.nCopies(cardImages.size(), false));
+
+        // Load the card back image from SharedPreferences
+        SharedPreferences preferences = context.getSharedPreferences("GameSettings", Context.MODE_PRIVATE);
+        int savedCardBackId = preferences.getInt("selectedCardBack", R.id.radioCardBack1);
+        defaultCardBackId = getCardBackResource(savedCardBackId);  // Convert saved ID to drawable resource
     }
 
     /**
@@ -84,7 +91,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         if (flipped.get(position) || matched.get(position)) {
             holder.imageView.setImageResource(cardImages.get(position));
         } else {
-            holder.imageView.setImageResource(R.drawable.classic_card_back);
+            holder.imageView.setImageResource(defaultCardBackId);
         }
 
         // Attach the click listener to handle card flip actions
@@ -94,6 +101,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
         });
     }
+
+    private int getCardBackResource(int radioId) {
+        if (radioId == R.id.radioCardBack1) {
+            return R.drawable.classic_card_back;
+        } else if (radioId == R.id.radioCardBack2) {
+            return R.drawable.modern_card_back;
+        } else if (radioId == R.id.radioCardBack3) {
+            return R.drawable.vintage_card_back;
+        } else if (radioId == R.id.radioCardBack4) {
+            return R.drawable.futuristic_card_back;
+        } else {
+            return R.drawable.classic_card_back; // Default case
+        }
+    }
+
 
     @Override
     public int getItemCount() {
