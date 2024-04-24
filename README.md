@@ -1,7 +1,7 @@
-# Android Memory Game
+# QuickFlip Memory Challenge
 
 ## Introduction
-This Android Memory Game is a simple and fun card-matching game that tests your memory. The game consists of flipped cards that a player turns over two at a time with the goal of finding a matching pair. The game continues until all pairs are found, and the objective is to achieve this in the fewest flips possible.
+QuickFlip Memory Challenge is a simple and fun card-matching game that tests your memory. The game consists of flipped cards that a player turns over two at a time with the goal of finding a matching pair. The game continues until all pairs are found, and the objective is to achieve this in the fewest flips possible.
 
 ## Features
 - **Simple and Intuitive UI**: Easy to navigate and play the game with a user-friendly interface.
