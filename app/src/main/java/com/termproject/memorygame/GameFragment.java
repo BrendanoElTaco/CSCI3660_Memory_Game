@@ -155,29 +155,89 @@ public class GameFragment extends Fragment {
         adapter = new CardAdapter(getActivity(), cardImages, 4);
         recyclerView.setAdapter(adapter);
 
+        // Reattach the click listener to the new adapter
+        adapter.setOnItemClickListener(position -> {
+            if (flippedCount < 2) {  // Only allow two cards to be flipped at a time
+                flipCard(position);
+            }
+        });
+
         // Update the UI to reflect the reset state
         updatePlayerInfo();
     }
 
+
     private ArrayList<Integer> getCardImages() {
-        // Generate a list of card image resources including duplicates for matching
-        ArrayList<Integer> images = new ArrayList<>();
-        images.add(R.drawable.threeofclubs);
-        images.add(R.drawable.threeofdiamonds);
-        images.add(R.drawable.threeofhearts);
-        images.add(R.drawable.threeofclubs); // Duplicate for matching
-        images.add(R.drawable.threeofclubs); // Duplicate for matching
-        images.add(R.drawable.threeofdiamonds); // Duplicate for matching
-        images.add(R.drawable.threeofhearts); // Duplicate for matching
-        images.add(R.drawable.threeofclubs); // Duplicate for matching
-        images.add(R.drawable.twoofclubs);
-        images.add(R.drawable.twoofdiamonds);
-        images.add(R.drawable.twoofhearts);
-        images.add(R.drawable.twoofspades);
-        images.add(R.drawable.twoofclubs); // Duplicate for matching
-        images.add(R.drawable.twoofdiamonds); // Duplicate for matching
-        images.add(R.drawable.twoofhearts); // Duplicate for matching
-        images.add(R.drawable.twoofspades); // Duplicate for matching
-        return images;
+        // Generate a list of card image resources
+        ArrayList<Integer> fullDeck = new ArrayList<>();
+        fullDeck.add(R.drawable.ace_of_clubs);
+        fullDeck.add(R.drawable.ace_of_diamonds);
+        fullDeck.add(R.drawable.ace_of_hearts);
+        fullDeck.add(R.drawable.ace_of_spades);
+        fullDeck.add(R.drawable.two_of_clubs);
+        fullDeck.add(R.drawable.two_of_diamonds);
+        fullDeck.add(R.drawable.two_of_hearts);
+        fullDeck.add(R.drawable.two_of_spades);
+        fullDeck.add(R.drawable.three_of_clubs);
+        fullDeck.add(R.drawable.three_of_diamonds);
+        fullDeck.add(R.drawable.three_of_hearts);
+        fullDeck.add(R.drawable.three_of_spades);
+        fullDeck.add(R.drawable.four_of_clubs);
+        fullDeck.add(R.drawable.four_of_diamonds);
+        fullDeck.add(R.drawable.four_of_hearts);
+        fullDeck.add(R.drawable.four_of_spades);
+        fullDeck.add(R.drawable.five_of_clubs);
+        fullDeck.add(R.drawable.five_of_diamonds);
+        fullDeck.add(R.drawable.five_of_hearts);
+        fullDeck.add(R.drawable.five_of_spades);
+        fullDeck.add(R.drawable.six_of_clubs);
+        fullDeck.add(R.drawable.six_of_diamonds);
+        fullDeck.add(R.drawable.six_of_hearts);
+        fullDeck.add(R.drawable.six_of_spades);
+        fullDeck.add(R.drawable.seven_of_clubs);
+        fullDeck.add(R.drawable.seven_of_diamonds);
+        fullDeck.add(R.drawable.seven_of_hearts);
+        fullDeck.add(R.drawable.seven_of_spades);
+        fullDeck.add(R.drawable.eight_of_clubs);
+        fullDeck.add(R.drawable.eight_of_diamonds);
+        fullDeck.add(R.drawable.eight_of_hearts);
+        fullDeck.add(R.drawable.eight_of_spades);
+        fullDeck.add(R.drawable.nine_of_clubs);
+        fullDeck.add(R.drawable.nine_of_diamonds);
+        fullDeck.add(R.drawable.nine_of_hearts);
+        fullDeck.add(R.drawable.nine_of_spades);
+        fullDeck.add(R.drawable.ten_of_clubs);
+        fullDeck.add(R.drawable.ten_of_diamonds);
+        fullDeck.add(R.drawable.ten_of_hearts);
+        fullDeck.add(R.drawable.ten_of_spades);
+        fullDeck.add(R.drawable.jack_of_clubstwo);
+        fullDeck.add(R.drawable.jack_of_diamondstwo);
+        fullDeck.add(R.drawable.jack_of_heartstwo);
+        fullDeck.add(R.drawable.jack_of_spadestwo);
+        fullDeck.add(R.drawable.queen_of_clubstwo);
+        fullDeck.add(R.drawable.queen_of_diamondstwo);
+        fullDeck.add(R.drawable.queen_of_heartstwo);
+        fullDeck.add(R.drawable.queen_of_spadestwo);
+        fullDeck.add(R.drawable.king_of_clubstwo);
+        fullDeck.add(R.drawable.king_of_diamondstwo);
+        fullDeck.add(R.drawable.king_of_heartstwo);
+        fullDeck.add(R.drawable.king_of_spadestwo);
+        fullDeck.add(R.drawable.red_joker);
+        fullDeck.add(R.drawable.black_joker);
+
+        // Create a list to store the selected images for the game
+        ArrayList<Integer> selectedImages = new ArrayList<>();
+
+        // Randomly pick 8 unique cards
+        Collections.shuffle(fullDeck);
+        for (int i = 0; i < 8; i++) {
+            selectedImages.add(fullDeck.get(i));
+            selectedImages.add(fullDeck.get(i)); // Add duplicate for matching
+        }
+
+        // Shuffle the selected images to randomize the pairs' positions
+        Collections.shuffle(selectedImages);
+        return selectedImages;
     }
+
 }
