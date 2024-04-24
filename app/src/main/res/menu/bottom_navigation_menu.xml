@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_game"
-        android:title="Game" />
+        android:icon="@drawable/outline_games_24"
+        android:title="@string/game" />
     <item
         android:id="@+id/nav_help"
-        android:title="Help" />
+        android:icon="@drawable/baseline_help_outline_24"
+        android:title="@string/help" />
+
 </menu>

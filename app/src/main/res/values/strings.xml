@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QuickFlip Memory Challenge</string>
+    <string name="game">Game</string>
+    <string name="help">Help</string>
 </resources>

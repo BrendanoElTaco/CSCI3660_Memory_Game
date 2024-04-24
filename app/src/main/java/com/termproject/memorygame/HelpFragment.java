@@ -26,17 +26,18 @@ public class HelpFragment extends Fragment {
         // HTML content to be displayed in the TextView, includes game rules and credits with hyperlinks
         String gameRules = "<b>Game Rules:</b><br><br>" +
                 "1. The game starts with all cards face down.<br>" +
-                "2. Flip over two cards.<br>" +
-                "3. If the two cards match, the player gets a point.<br>" +
-                "4. If they don't match, they are flipped back over.<br>" +
-                "5. The game is over when all the cards have been matched.<br>" +
-                "6. The goal of the game is to match all pairs of cards with the fewest flips possible.<br><br>" +
+                "2. Players take turns to flip over two cards each turn.<br>" +
+                "3. If the two cards match, the player scores a point.<br>" +
+                "4. If they don't match, they are flipped back over and it's the next player's turn.<br>" +
+                "5. The game continues until all cards have been matched.<br>" +
+                "6. The player with the most matches at the end of the game wins.<br><br>" +
                 "<b>About:</b><br><br>" +
-                "This app was made as a term project for the University of North Georgia's Mobile Application Development class.<br><br>" +
+                "This app was created as a term project for the Mobile Application Development course at the University of North Georgia.<br><br>" +
                 "<b>Credits:</b><br><br>" +
                 "<a href=\"https://github.com/BrendanoElTaco\">Brendan LeGrand </a><br>" +
                 "<a href=\"https://github.com/natemvm\">Nathan Lee </a><br>" +
                 "<a href=\"https://github.com/JamieGibbs1\">Jamie Gibbs </a><br>";
+
 
         // Set the formatted HTML text to the TextView based on Android version
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

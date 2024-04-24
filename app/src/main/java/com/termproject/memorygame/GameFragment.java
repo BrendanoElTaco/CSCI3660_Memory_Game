@@ -81,6 +81,10 @@ public class GameFragment extends Fragment {
         if (flippedCount >= 2 || adapter.isMatched(position)) {
             return;
         }
+        if (flippedCount == 1 && position == firstFlippedPosition) {
+            // If the same card is tapped twice, ignore the second tap
+            return;
+        }
 
         adapter.flipCard(position);  // Flip the card at the specified position
         flippedCount++;  // Increment the count of flipped cards
