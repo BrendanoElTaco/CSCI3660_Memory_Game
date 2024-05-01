@@ -1,6 +1,8 @@
 package com.termproject.memorygame;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Lock screen orientation to portrait on phones
+        /*
+        if (isPhone()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }*/
+
         // Setting the content view to the layout defined in activity_main.xml
         setContentView(R.layout.activity_main);
 
@@ -56,5 +65,24 @@ public class MainActivity extends AppCompatActivity {
         // Committing the transaction to make the changes effective
         fragmentTransaction.commit();
     }
+
+    /*
+    private boolean isPhone() {
+        // Get screen density and size in dp
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float widthDp = displayMetrics.widthPixels / displayMetrics.density;
+        float heightDp = displayMetrics.heightPixels / displayMetrics.density;
+        float smallestWidthDp = getResources().getConfiguration().smallestScreenWidthDp;
+
+        // Common threshold for distinguishing phones from tablets
+        boolean isScreenSizePhone = smallestWidthDp < 600;
+
+        // Consider aspect ratio for additional check (common phone aspect ratio is around 16:9)
+        float aspectRatio = Math.max(widthDp, heightDp) / Math.min(widthDp, heightDp);
+        boolean isAspectRatioPhone = aspectRatio > 1.5;  // Adjust this value based on typical phone aspect ratios
+
+        // Return true if both conditions suggest the device is a phone
+        return isScreenSizePhone && isAspectRatioPhone;
+    }*/
 
 }
