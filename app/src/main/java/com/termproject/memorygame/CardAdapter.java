@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,28 +21,21 @@ import java.util.List;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-    private Context context;  // Context to access application-specific resources and utilities
-    private List<Integer> cardImages;  // List of image resource IDs for the cards
-    private List<Boolean> flipped;  // List to track flipped state of each card
-    private List<Boolean> matched;  // List to track matched state of each card
-    private int numberOfColumns;  // Number of columns in the grid layout
-    private int defaultCardBackId;  // ID to hold the default card back image
-
-    /**
-     * Interface for handling item click events.
-     */
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
+    private final Context context;  // Context to access application-specific resources and utilities
+    private final List<Integer> cardImages;  // List of image resource IDs for the cards
+    private final List<Boolean> flipped;  // List to track flipped state of each card
+    private final List<Boolean> matched;  // List to track matched state of each card
+    private final int numberOfColumns;  // Number of columns in the grid layout
+    private final int defaultCardBackId;  // ID to hold the default card back image
     private OnItemClickListener onItemClickListener;  // Listener for click events
 
     /**
      * Constructor for the CardAdapter class.
      * Initializes lists for tracking card states and sets up the grid layout.
-     * @param context Application context.
+     *
+     * @param context    Application context.
      * @param cardImages List of drawable resources representing card faces.
-     * @param columns Number of columns in the grid layout.
+     * @param columns    Number of columns in the grid layout.
      */
     public CardAdapter(Context context, ArrayList<Integer> cardImages, int columns) {
         this.context = context;
@@ -57,6 +52,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     /**
      * Sets the listener for item clicks.
+     *
      * @param listener The listener to be notified when an item is clicked.
      */
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -116,27 +112,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         }
     }
 
-
     @Override
     public int getItemCount() {
         return cardImages.size();
     }
 
     /**
-     * ViewHolder class that holds the views for each grid item.
-     */
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;  // ImageView to display the card
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-        }
-    }
-
-    /**
      * Flips a card at a specified position.
      * Toggles the flipped state and updates the display.
+     *
      * @param position The position of the card to flip.
      */
     public void flipCard(int position) {
@@ -149,6 +133,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     /**
      * Sets a card as matched.
      * Updates both the matched and flipped state to ensure proper display.
+     *
      * @param position The position of the card to mark as matched.
      */
     public void setMatched(int position) {
@@ -159,10 +144,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     /**
      * Checks if a card at a specified position is matched.
+     *
      * @param position Position of the card to check.
      * @return true if the card is matched, false otherwise.
      */
     public boolean isMatched(int position) {
         return matched.get(position);
+    }
+
+    /**
+     * Interface for handling item click events.
+     */
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    /**
+     * ViewHolder class that holds the views for each grid item.
+     */
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;  // ImageView to display the card
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.imageView);
+        }
     }
 }

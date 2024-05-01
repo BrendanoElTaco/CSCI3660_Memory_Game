@@ -22,7 +22,7 @@ public class GameFragment extends Fragment {
     private int flippedCount = 0;  // Count of currently flipped cards
     private int firstFlippedPosition = -1;  // Position of the first flipped card
     private int secondFlippedPosition = -1;  // Position of the second flipped card
-    private Handler flipHandler = new Handler();  // Handler to manage delayed tasks
+    private final Handler flipHandler = new Handler();  // Handler to manage delayed tasks
     private Runnable flipRunnable;  // Runnable task for handling the delay in flipping cards back
 
     private Player player1;  // Player 1 object

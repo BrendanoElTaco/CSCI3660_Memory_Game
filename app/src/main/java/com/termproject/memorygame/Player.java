@@ -5,11 +5,12 @@ package com.termproject.memorygame;
  * This class stores player information and score details.
  */
 public class Player {
-    private String name;  // Player's name
+    private final String name;  // Player's name
     private int score;    // Player's current score
 
     /**
      * Constructor to initialize the player with a name.
+     *
      * @param name The name of the player.
      */
     public Player(String name) {
@@ -19,6 +20,7 @@ public class Player {
 
     /**
      * Returns the player's name.
+     *
      * @return A string representing the player's name.
      */
     public String getName() {
@@ -27,6 +29,7 @@ public class Player {
 
     /**
      * Returns the player's current score.
+     *
      * @return An integer representing the player's score.
      */
     public int getScore() {

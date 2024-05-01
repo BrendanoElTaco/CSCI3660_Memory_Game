@@ -1,13 +1,39 @@
 package com.termproject.memorygame;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Listener for the navigation items, defining actions based on item selected
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            menuItem -> {
+                Fragment selectedFragment = null;
+
+                // Getting the ID of the clicked menu item
+                int id = menuItem.getItemId();
+                // Conditional to check which fragment to display based on the item clicked
+                if (id == R.id.nav_game) {
+                    selectedFragment = new GameFragment();  // If game item is selected
+                } else if (id == R.id.nav_help) {
+                    selectedFragment = new HelpFragment();  // If help item is selected
+                } else if (id == R.id.nav_settings) {
+                    selectedFragment = new SettingsFragment(); // If settings item is selected
+                }
+
+                // Replacing the current fragment with the selected fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        selectedFragment).commit();
+
+                // Returning true indicates the item selection was handled
+                return true;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +56,5 @@ public class MainActivity extends AppCompatActivity {
         // Committing the transaction to make the changes effective
         fragmentTransaction.commit();
     }
-
-    // Listener for the navigation items, defining actions based on item selected
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            menuItem -> {
-                Fragment selectedFragment = null;
-
-                // Getting the ID of the clicked menu item
-                int id = menuItem.getItemId();
-                // Conditional to check which fragment to display based on the item clicked
-                if (id == R.id.nav_game) {
-                    selectedFragment = new GameFragment();  // If game item is selected
-                } else if (id == R.id.nav_help) {
-                    selectedFragment = new HelpFragment();  // If help item is selected
-                } else if (id == R.id.nav_settings) {
-                    selectedFragment = new SettingsFragment(); // If settings item is selected
-                }
-
-                // Replacing the current fragment with the selected fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-                // Returning true indicates the item selection was handled
-                return true;
-            };
 
 }
