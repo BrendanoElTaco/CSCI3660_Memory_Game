@@ -41,11 +41,7 @@ public class HelpFragment extends Fragment {
 
 
         // Set the formatted HTML text to the TextView based on Android version
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            rulesTextView.setText(Html.fromHtml(gameRules, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            rulesTextView.setText(Html.fromHtml(gameRules));
-        }
+        rulesTextView.setText(Html.fromHtml(gameRules, Html.FROM_HTML_MODE_LEGACY));
 
         // Enable hyperlinks in the TextView to be clickable
         rulesTextView.setMovementMethod(LinkMovementMethod.getInstance());
